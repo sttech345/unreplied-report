@@ -1,4 +1,4 @@
-﻿name: posukun-morning-report
+name: posukun-morning-report
 
 on:
   schedule:
