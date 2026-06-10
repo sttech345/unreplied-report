@@ -69,8 +69,9 @@ GitHub Actions で動くので、PCを起動していなくても毎朝届きま
     gh auth login
     ```
 - [ ] **GitHub.com でこのリポジトリを fork 済み**
+  - 元リポジトリ：**https://github.com/sttech345/unreplied-report**
   - fork とは：自分のアカウントにリポジトリをコピーすること
-  - GitHub.com のリポジトリページ右上の「Fork」ボタンを押す
+  - 上記 URL を開いて右上の「Fork」ボタンを押す
   - **fork したリポジトリは必ず Private に設定してください**（Settings → General → Danger Zone → Change visibility → Make private）。Public のままだと第三者がワークフローを実行できます。Secrets 登録（Step 4）前までに必ず Private にしてください。
 - [ ] **fork したリポジトリを PC に clone 済み**
   - clone とは：GitHub 上のリポジトリを PC にダウンロードすること
@@ -415,7 +416,8 @@ unreplied-report/
 
 ## 今後の拡張予定
 
-- [ ] Gmail 未返信対応（OAuth2 refresh token が必要）
+- [x] Gmail 未返信対応（⚑要返信ラベル検索方式で対応済み）
 - [ ] 週次サマリーモード
 - [ ] 対象チャンネルを config.yml で絞り込む設定
 - [ ] Slack グループ DM（mpim）収集対応
+- [ ] @here / @channel メンション対応

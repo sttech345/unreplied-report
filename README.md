@@ -1,68 +1,50 @@
 # 📮 ポスくん — 未返信レポート Bot
 
-毎朝8時に Chatwork・Slack の未返信メッセージを収集して、Slack DM で教えてくれる Bot。
+毎朝8時に Chatwork・Slack・Gmail の未返信メッセージを収集して、Slack DM で教えてくれる Bot。
 
 ```
 📮 ポスくんより、朝のお届け物です
 
-【Chatwork】
-  • `開発チーム`（2件）
-    田中さん（06/09 14:32）「例の件、どうなりましたか…」
+【Chatwork】2件
+  • 営業チーム ← 田中さん（06/09 14:32）
+  • 開発MTG ← 鈴木さん（06/09 09:15）
 
-【Slack】
-  • `#general`
-    山田さん（06/09 15:01）「<@U...> 確認お願いします…」
+【Slack】3件
+  • #marketing_all ← 山田さん（06/09 15:01）
+  • DM: 佐藤さん ← 佐藤さん（06/09 11:20）
+  • #general ← 高橋さん（06/09 08:45）
 
-返事、お待ちしてる方が 3件 いるみたいですよ〜 🌤️
+【Gmail（⚑要返信）】1件
+  • お見積りのご確認 ← 高橋商事（06/09 10:00）
+
+返事、お待ちしてる方が 6件 いるみたいですよ〜 🌤️
 ```
 
----
+各行はリンクになっており、クリックでそのメッセージに直接ジャンプできます。
+
+## 特徴
+
+- **PC 不要** — GitHub Actions で動くので、PC を起動していなくても毎朝届く
+- **除外スタンプ** — ✅ などを付けたメッセージは「対応済み」として翌朝から除外
+- **月曜は72時間ウィンドウ** — 金〜日の未返信も月曜朝に拾う
+- **通知は自分だけ** — 自分の Slack DM にのみ届く
 
 ## セットアップ
 
-### 1. Slack App を作る
+**Claude Code に任せるのが一番簡単です。** Claude Code を起動して以下を貼り付けてください：
 
-[api.slack.com/apps](https://api.slack.com/apps) で新規アプリを作成する。
+```
+@https://raw.githubusercontent.com/sttech345/unreplied-report/master/CLAUDE.md を読んでセットアップして
+```
 
-**Bot Token Scopes（ポスくん投稿用）**
-- `chat:write`
-- `im:write`
+Slack App の作成・API トークン取得・GitHub Secrets 登録などをステップごとに案内してくれます。
+手動でセットアップする場合も [CLAUDE.md](CLAUDE.md) に全手順が記載されています。
 
-**User Token Scopes（メッセージ読み取り用）**
-- `channels:history`
-- `groups:history`
-- `im:history`
-- `mpim:history`
-- `channels:read`
-- `groups:read`
-- `im:read`
-- `users:read`
+詳しい紹介は [docs/posukun-guide.pdf](docs/posukun-guide.pdf)（1ページ）をどうぞ。
 
-ワークスペースにインストールして以下を控えておく：
-- **Bot User OAuth Token**（`xoxb-...`）→ `SLACK_BOT_TOKEN`
-- **User OAuth Token**（`xoxp-...`）→ `SLACK_USER_TOKEN`
+## カスタマイズ
 
-### 2. GitHub Secrets を設定する
-
-リポジトリの Settings → Secrets and variables → Actions に追加：
-
-| Secret 名 | 内容 |
-|---|---|
-| `CHATWORK_API_TOKEN` | Chatwork の API トークン |
-| `CHATWORK_ACCOUNT_ID` | 自分の Chatwork アカウント ID |
-| `SLACK_BOT_TOKEN` | Slack Bot Token（`xoxb-...`） |
-| `SLACK_USER_TOKEN` | Slack User Token（`xoxp-...`） |
-| `SLACK_USER_ID` | 自分の Slack ユーザー ID（`U...`） |
-
-### 3. 動作確認
-
-GitHub Actions の画面から `workflow_dispatch` で手動実行できる。
-
----
-
-## 除外スタンプの設定
-
-`config.yml` で、このリアクションを自分がつけたメッセージは未返信扱いにしない、と設定できる。
+`config.yml` で除外スタンプを変更できます：
 
 ```yaml
 slack:
@@ -72,11 +54,19 @@ slack:
     - ok_hand           # 👌
 ```
 
-Slack 絵文字名（コロンなし）で指定する。変更後はコミットするだけで反映される。
+実行時刻は `.github/workflows/morning-report.yml` の cron で変更できます（UTC 基準、JST は +9 時間）。
 
----
+## 構成
+
+| ソース | 収集対象 |
+|---|---|
+| Chatwork | 1:1 ルームの未返信 ＋ グループの `[To:自分]` メンション |
+| Slack | DM（Bot 除外）＋ チャンネルの自分宛てメンション |
+| Gmail | `⚑要返信` ラベル付きスレッド（ラベリングは claude.ai ルーティン等で実施） |
 
 ## 今後の予定
 
-- [ ] Gmail 対応
 - [ ] 週次サマリーモード
+- [ ] 対象チャンネルを config.yml で絞り込む設定
+- [ ] Slack グループ DM（mpim）対応
+- [ ] @here / @channel メンション対応
