@@ -1,0 +1,4 @@
+* text=auto
+*.yml linguist-language=YAML
+*.yml eol=lf
+*.yaml eol=lf

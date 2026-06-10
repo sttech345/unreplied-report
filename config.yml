@@ -1,0 +1,8 @@
+slack:
+  # この絵文字リアクションがついたメッセージは未返信扱いにしない
+  # Slack絵文字名（コロンなし）で指定する
+  # 例: ✅ → white_check_mark, 👀 → eyes, 👌 → ok_hand
+  exclude_reactions:
+    - white_check_mark  # ✅ 対応済み
+    - eyes              # 👀 確認済み
+    - ok_hand           # 👌 了解

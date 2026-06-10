@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ポスくん — セットアップガイド</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #222;
+    background: #fff;
+    padding: 20px 28px 16px;
+    width: 210mm;
+    min-height: 297mm;
+  }
+
+  /* ヘッダー */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .header-icon { font-size: 28px; }
+  .header-title { font-size: 22px; font-weight: 700; color: #1d4ed8; }
+  .header-sub { font-size: 11px; color: #555; margin-top: 2px; }
+
+  /* 2カラムレイアウト */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  /* セクション */
+  .section { margin-bottom: 10px; }
+  .section-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #1d4ed8;
+    border-left: 3px solid #2563eb;
+    padding-left: 6px;
+    margin-bottom: 6px;
+  }
+
+  /* サンプルメッセージ */
+  .sample-box {
+    background: #f0f4ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 10.5px;
+    font-family: "Menlo", "Consolas", monospace;
+    line-height: 1.6;
+    white-space: pre;
+  }
+  .sample-note {
+    font-size: 10px;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  /* 必要なもの テーブル */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10.5px;
+  }
+  th {
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 700;
+    padding: 4px 8px;
+    border: 1px solid #bfdbfe;
+    text-align: left;
+  }
+  td {
+    padding: 4px 8px;
+    border: 1px solid #e0e7ef;
+    vertical-align: middle;
+  }
+  tr:nth-child(even) td { background: #f9fafb; }
+
+  /* ステップ */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    align-items: flex-start;
+  }
+  .step-num {
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-content strong { color: #1d4ed8; }
+  .step-content .cmd {
+    display: inline-block;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    padding: 0 4px;
+    font-family: monospace;
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  /* カスタマイズ */
+  .config-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-family: monospace;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .config-comment { color: #64748b; }
+
+  /* FAQ */
+  .faq-item { margin-bottom: 6px; }
+  .faq-q { font-weight: 700; color: #374151; }
+  .faq-a { color: #555; margin-left: 10px; }
+
+  /* フッター */
+  .footer {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 9.5px;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* バッジ */
+  .badge {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 9.5px;
+    font-weight: 700;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="header">
+  <div class="header-icon">📮</div>
+  <div>
+    <div class="header-title">ポスくん</div>
+    <div class="header-sub">未返信メッセージを毎朝 Slack DM に届けてくれる Bot</div>
+  </div>
+  <div style="margin-left: auto; text-align: right; font-size: 10px; color: #888;">
+    GitHub Actions で動作 — PC 不要<br>
+    Chatwork / Slack 対応
+  </div>
+</div>
+
+<!-- 2カラム上段 -->
+<div class="two-col">
+
+  <!-- 左：サンプル -->
+  <div>
+    <div class="section-title">届くメッセージのイメージ</div>
+    <div class="sample-box">📮 ポスくんより、朝のお届け物です
+
+【Chatwork】2件
+  • 営業チーム  ← 田中さん（06/09 14:32）
+  • 開発MTG    ← 鈴木さん（06/09 09:15）
+
+【Slack】3件
+  • #marketing_all  ← 山田さん（06/09 15:01）
+  • DM: 佐藤さん   ← 佐藤さん（06/09 11:20）
+  • #general        ← 高橋さん（06/09 08:45）
+
+【Gmail（⚑要返信）】1件
+  • お見積りのご確認  ← 高橋商事（06/09 10:00）
+
+返事、お待ちしてる方が 6件 いるみたいですよ〜 🌤️</div>
+    <div class="sample-note">チャンネル名・ルーム名はタップするとメッセージに直接ジャンプできます</div>
+  </div>
+
+  <!-- 右：必要なもの -->
+  <div>
+    <div class="section-title">必要なもの</div>
+    <table>
+      <tr><th>サービス</th><th>備考</th></tr>
+      <tr><td>GitHub アカウント</td><td>無料プランでOK</td></tr>
+      <tr><td>Chatwork アカウント</td><td>API トークン（設定画面で取得）</td></tr>
+      <tr><td>Slack アカウント</td><td>App 追加権限が必要</td></tr>
+      <tr><td>Gmail アカウント</td><td>Google Cloud Console でOAuth設定（オプション）</td></tr>
+      <tr><td>Claude Code</td><td>セットアップに使用（無料トライアルあり）</td></tr>
+    </table>
+
+    <div style="margin-top: 10px;">
+      <div class="section-title">特徴</div>
+      <ul style="padding-left: 16px; font-size: 10.5px; line-height: 1.8;">
+        <li>PC を起動していなくても<strong>毎朝 8 時</strong>に自動配信</li>
+        <li>通知先は<strong>自分の Slack DM のみ</strong>（チームには届きません）</li>
+        <li>API キーは GitHub Secrets に保存—コードに残らない</li>
+        <li>✅ 等のスタンプで「対応済み」にしたメッセージは翌朝から除外</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 2カラム下段 -->
+<div class="two-col">
+
+  <!-- 左：セットアップ -->
+  <div>
+    <div class="section-title">セットアップ方法 — Claude Code が手順を案内<span class="badge">約 30〜60 分</span></div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>リポジトリを fork する</strong><br>
+          GitHub でこのリポジトリ右上の「Fork」を押す。<br>
+          設定で <strong>Private</strong> にしておく（API キー漏洩防止）
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Claude Code を起動して、フォルダを開く</strong><br>
+          <span class="cmd">claude</span> コマンドでリポジトリのフォルダを開く
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>「セットアップして」と伝える</strong><br>
+          Claude Code が <span class="cmd">CLAUDE.md</span> を読み込み、<br>
+          各サービスの設定手順をステップごとに案内してくれます
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 8px; background: #fef9c3; border: 1px solid #fde047; border-radius: 5px; padding: 5px 8px; font-size: 10px;">
+      ⚠️ Slack App 作成・API トークン取得・Gmail OAuth 設定・GitHub Secrets 登録など、<br>
+      ブラウザ操作や設定作業は自分で行う必要があります。Claude Code が順番に案内します。<br><br>
+      💡 Claude Code 未インストールの方は <strong>claude.ai/code</strong> から（無料トライアルあり）
+    </div>
+  </div>
+
+  <!-- 右：カスタマイズ + FAQ -->
+  <div>
+    <div class="section-title">カスタマイズ（config.yml を編集するだけ）</div>
+    <div style="font-size: 10.5px; margin-bottom: 4px;">対応済みスタンプを押したメッセージは翌朝から除外されます</div>
+    <div class="config-box"><span class="config-comment"># どの絵文字を「対応済み」とみなすか設定</span>
+slack:
+  exclude_reactions:
+    - white_check_mark  <span class="config-comment"># ✅ 対応済み</span>
+    - eyes              <span class="config-comment"># 👀 確認済み</span>
+    - ok_hand           <span class="config-comment"># 👌 了解</span></div>
+
+    <div style="font-size: 10px; color: #555; margin-top: 4px; margin-bottom: 8px;">
+      実行時刻（デフォルト：平日 8:00）の変更も 1 行で対応可能
+    </div>
+
+    <div class="section-title">よくある質問</div>
+    <div class="faq-item">
+      <div class="faq-q">Q. Chatwork も Slack も両方必要？</div>
+      <div class="faq-a">どちらか一方だけでも動きます。設定しなければスキップされます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q. 送信先は自分だけ？</div>
+      <div class="faq-a">はい。自分の Slack DM にのみ届きます。チームへの通知はしません。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q. Bot の通知も未返信に出る？</div>
+      <div class="faq-a">出ません。Bot アカウントは自動的に除外されます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q. Gmail には対応している？</div>
+      <div class="faq-a">対応しています。⚑要返信ラベルが付いたメールを収集して報告します。</div>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <div class="section-title" style="color: #b45309;">⚠ 既知の制限事項</div>
+      <table style="font-size: 10px;">
+        <tr><th style="background:#fef9c3; color:#92400e; border-color:#fde047;">制限</th><th style="background:#fef9c3; color:#92400e; border-color:#fde047;">回避策</th></tr>
+        <tr><td>月曜朝は72時間に拡大し金〜日の未返信を収集（対応済み）。GW・年末など4日以上の連休は手動確認を推奨</td><td>—</td></tr>
+        <tr><td>Slack：@here / @channel メンションは検出されない</td><td>Slack のリマインダーで個別管理</td></tr>
+        <tr><td>Chatwork グループ：[To:ID] 形式のメンションのみ対象</td><td>送り手に [To:ID] 形式を依頼</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  <div>📮 ポスくん — 未返信レポート Bot &nbsp;|&nbsp; github.com/sttech345/unreplied-report</div>
+  <div>Claude Code の CLAUDE.md を読み込ませて「セットアップして」と言うだけ</div>
+</div>
+
+</body>
+</html>
